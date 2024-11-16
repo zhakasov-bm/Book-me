@@ -1,0 +1,43 @@
+# version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pet-project-app:latest
+    container_name: pet-project-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+
+  webserver:
+    image: nginx:alpine
+    container_name: pet-project-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  db:
+    image: mysql:8.4.1
+    container_name: pet-project-mysql
+    restart: unless-stopped
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: dbbookme
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+
+volumes:
+  mysql_data:
+    driver: local
+
+#networks:
+#    app-network:
+#        driver: bridge
