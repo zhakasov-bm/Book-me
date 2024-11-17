@@ -13,4 +13,6 @@ Route::get('/lecture/vue', function () {
     return view('vue');
 });
 
+Route::get('/send-email', [\App\Http\Controllers\EmailController::class, 'send']);
+
 

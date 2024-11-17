@@ -33,6 +33,18 @@ services:
       MYSQL_ROOT_PASSWORD: root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
+  
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: pet-project-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+
 
 volumes:
   mysql_data:
